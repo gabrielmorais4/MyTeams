@@ -39,19 +39,17 @@ void add_client(client **clients, int socket_fd, struct sockaddr_in address)
 
 void remove_client(client *clients, int client_fd)
 {
-    for (int i = 0; i != MAX_CLIENTS; i++) {
-        if (clients[i].socket == client_fd && clients[i].username)
-            free(clients[i].username);
-        if (clients[i].socket == client_fd) {
-            clean_use_client(&clients[i]);
-            clients[i].socket = -1;
-            uuid_clear(clients[i].uuid);
-            free(clients[i].uuid_text);
-            clients[i].uuid_text = malloc(sizeof(uuid_t) * 2 + 5);
-            clients[i].username = NULL;
-            clients[i].is_logged = false;
-            return;
-        }
+    if (clients->socket == client_fd && clients->username)
+        free(clients->username);
+    if (clients->socket == client_fd) {
+        clean_use_client(clients);
+        clients->socket = -1;
+        uuid_clear(clients->uuid);
+        free(clients->uuid_text);
+        clients->uuid_text = malloc(sizeof(uuid_t) * 2 + 5);
+        clients->username = NULL;
+        clients->is_logged = false;
+        return;
     }
 }
 
@@ -82,7 +80,7 @@ int client_communication(server **serv, client **clients, fd_set copy_fds)
         int sd = (*clients)[i].socket;
         if (FD_ISSET(sd, &copy_fds)) {
             (*serv)->command = get_command(sd);
-            command_handler(serv, clients, clients[i], sd);
+            command_handler(serv, clients, &(*clients)[i], sd);
             free_my_array((*serv)->command);
             (*serv)->command = NULL;
         }
