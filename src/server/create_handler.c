@@ -88,15 +88,18 @@ int create_handler(server **se, client **cli_list, client *cli, int sd)
 {
     if (user_not_connected(cli))
         return 0;
-    if (!cli->team)
+    if (!cli->team && array_len((*se)->command) == 3)
         return handler_create_team(se, cli_list, cli, sd);
     if (cli->team && !cli->channel &&
-    !user_not_subscribed(se, cli, cli->team, (*se)->db))
+    !user_not_subscribed(se, cli, cli->team, (*se)->db)
+    && array_len((*se)->command) == 3)
         return handler_create_channel(se, cli_list, cli, sd);
     if (cli->team && cli->channel && !cli->thread &&
-    !user_not_subscribed(se, cli, cli->team, (*se)->db))
+    !user_not_subscribed(se, cli, cli->team, (*se)->db)
+    && array_len((*se)->command) == 3)
         return handler_create_thread(se, cli_list, cli, sd);
-    if (cli->team && cli->channel && cli->thread)
+    if (cli->team && cli->channel && cli->thread &&
+    array_len((*se)->command) == 2)
         return handler_create_reply(se, cli_list, cli, sd);
     return 0;
 }
