@@ -38,7 +38,7 @@ char *create_channel         (server **serv, client **cli_list,
     char to_send[1024];
     sprintf(to_send, "%s%s\n%s\n%s\n", CODE_213, uuid, name, description);
     server_event_channel_created(team_uuid, uuid, name);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return channel_message_to_everyone(uuid, name, description);
 }
 
@@ -83,7 +83,7 @@ char *create_thread         (server **serv, client **cli_list,
     timeStamp, title, body);
     server_event_thread_created(channel_uuid, uuid, user_uuid,
     title, body);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     memset(to_send, 0, 1024);
     sprintf(to_send, "%s%s\n%s\n", CODE_216, uuid, user_uuid);
     free(uuid);

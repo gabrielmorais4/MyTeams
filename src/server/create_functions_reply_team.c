@@ -60,7 +60,7 @@ char *create_reply(server **serv, client **cli_list,
     sqlite3_finalize((*serv)->stmt);
     server_event_reply_created(thread_uuid, user_uuid, body);
     char *to_send = to_send_reply(serv, curr_cli, time_stamp, 0);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     free(to_send);
     return to_send_reply(serv, curr_cli, time_stamp, 1);
 }
@@ -97,6 +97,6 @@ char *create_team         (server **serv, client **cli_list,
     char to_send[1024];
     sprintf(to_send, "%s%s\n%s\n%s\n", CODE_211, uuid, name, description);
     server_event_team_created(uuid, name, cur_cli->uuid_text);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return team_message_to_everyone(uuid, name, description);
 }

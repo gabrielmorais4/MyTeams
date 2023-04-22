@@ -21,7 +21,7 @@ client *curr_cli, int sd)
     infos[3] = NULL;
     server_event_private_message_sended(curr_cli->uuid_text,
     (*serv)->command[1], (*serv)->command[2]);
-    send(sd, CODE_221, strlen(CODE_205) + 1, 0);
+    send(sd, CODE_221, strlen(CODE_205) + 1, MSG_NOSIGNAL);
     save_message_in_db(serv, curr_cli);
     send_info_client(infos, receiver);
     return 0;
@@ -42,7 +42,7 @@ char to_send[4096], int sd)
     if (result != SQLITE_OK)
         return fprintf(stderr, "Failed to finalize statement: %s\n",
         sqlite3_errmsg((*serv)->db));
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
 }
 
 int messages_handler(server **serv, client **cli_list,

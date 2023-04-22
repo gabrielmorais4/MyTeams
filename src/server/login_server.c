@@ -76,7 +76,7 @@ int login_handler_next(server **se, client *cli, int sd, int result)
         user_doesnt_exist(se, cli, str);
     cli->is_logged = true;
     execute_function_login(se, cli, 1);
-    send(sd, str, strlen(str) + 1, 0);
+    send(sd, str, strlen(str) + 1, MSG_NOSIGNAL);
     return 0;
 }
 

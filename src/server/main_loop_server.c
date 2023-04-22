@@ -50,5 +50,6 @@ void server_loop(server **serv, client **clients)
     }
     for (int i = 0; i < MAX_CLIENTS; i++)
         if ((*clients)[i].is_logged)
-            send((*clients)[i].socket, CODE_202, strlen(CODE_202) + 1, 0);
+            send((*clients)[i].socket, CODE_202,
+            strlen(CODE_202) + 1, MSG_NOSIGNAL);
 }

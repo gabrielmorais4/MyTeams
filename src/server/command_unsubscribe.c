@@ -58,13 +58,14 @@ int unsubscribe_function    (server **se, client **cli_list,
     char to_send[1024] = {0};
     if (!check_if_uuid_exists((*se)->command[1], "teams", (*se)->db)) {
         strcpy(to_send, CODE_500); strcat(to_send, curr_cli->team);
-        strcat(to_send, "\n"); send(sd, to_send, strlen(to_send) + 1, 0);
+        strcat(to_send, "\n"); send(sd, to_send,
+        strlen(to_send) + 1, MSG_NOSIGNAL);
         return 0;
     }
     if (!user_already_subscribed(se, curr_cli,
     (*se)->command[1], (*se)->db)) {
-        strcpy(to_send, CODE_231); send(sd, to_send, strlen(to_send) + 1, 0);
-        return 0;
+        strcpy(to_send, CODE_231); send(sd, to_send,
+        strlen(to_send) + 1, MSG_NOSIGNAL); return 0;
     }
     unsubscribe_sql_commands(se, cli_list, curr_cli, sd);
     strcpy(to_send, CODE_209); strcat(to_send, curr_cli->uuid_text);

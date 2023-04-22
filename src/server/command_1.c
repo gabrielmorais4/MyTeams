@@ -56,7 +56,7 @@ int users_function          (server **serv, client **cli_list,
     if (result != SQLITE_OK)
         return fprintf(stderr, "Falha ao finalizar a instrução: %s\n",
         sqlite3_errmsg((*serv)->db));
-    return send(sd, to_send, strlen(to_send) + 1, 0);
+    return send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
 }
 
 int user_function           (server **serv, client **cli_list,

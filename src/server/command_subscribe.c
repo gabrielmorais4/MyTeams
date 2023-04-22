@@ -20,7 +20,7 @@ sqlite3 *db)
         return false;
     }
     if (strstr(user_uuids, cli->uuid_text)) {
-        send(cli->socket, CODE_230, strlen(CODE_230) + 1, 0);
+        send(cli->socket, CODE_230, strlen(CODE_230) + 1, MSG_NOSIGNAL);
         sqlite3_finalize((*se)->stmt);
         return true;
     }
@@ -58,7 +58,8 @@ int subscribe_function      (server **se, client **cli_list,
     char to_send[1024] = {0};
     if (!check_if_uuid_exists((*se)->command[1], "teams", (*se)->db)) {
         strcpy(to_send, CODE_500); strcat(to_send, cli->team);
-        strcat(to_send, "\n"); send(sd, to_send, strlen(to_send) + 1, 0);
+        strcat(to_send, "\n"); send(sd, to_send,
+        strlen(to_send) + 1, MSG_NOSIGNAL);
         return 0;
     }
     if (user_already_subscribed(se, cli, (*se)->command[1], (*se)->db)) {
@@ -69,6 +70,6 @@ int subscribe_function      (server **se, client **cli_list,
     strcat(to_send, "\n"); strcat(to_send, (*se)->command[1]);
     strcat(to_send, "\n");
     server_event_user_subscribed((*se)->command[1], cli->uuid_text);
-    send_message_to_every_one(se, cli_list, cli, to_send);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return 0;
 }

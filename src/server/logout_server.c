@@ -17,7 +17,7 @@ int logout_handler(server **serv, client *cur_cli, int sd)
     char *to_send = malloc(sizeof(char) * 1024);
     sprintf(to_send, "%s\n%s\n%s\n", CODE_202, cur_cli->uuid_text,
     cur_cli->username);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     free(to_send);
     FD_CLR(sd, &(*serv)->readfds);
     close(sd);

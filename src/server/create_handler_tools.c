@@ -19,12 +19,14 @@ client *cli, char *message)
         if ((strstr(message, "212") || strstr(message, "207") ||
         strstr(message, "209")) && (*cli_list)[i].socket != -1 &&
         (*cli_list)[i].is_logged) {
-            send((*cli_list)[i].socket, message, strlen(message) + 1, 0);
+            send((*cli_list)[i].socket, message,
+            strlen(message) + 1, MSG_NOSIGNAL);
             continue;
         }
         if ((*cli_list)[i].socket != -1 && (*cli_list)[i].is_logged &&
         strstr(user_uuids, (*cli_list)[i].uuid_text)) {
-            send((*cli_list)[i].socket, message, strlen(message) + 1, 0);
+            send((*cli_list)[i].socket, message,
+            strlen(message) + 1, MSG_NOSIGNAL);
         }
     }
     sqlite3_finalize((*se)->stmt);
@@ -36,6 +38,6 @@ char *send_code_and_value(char *code, char *value, int sd)
     strcpy(to_send, code);
     strcat(to_send, value);
     strcat(to_send, "\n");
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return "error";
 }

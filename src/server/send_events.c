@@ -19,7 +19,8 @@ client *current_client, int sd)
     for (int i = 0; i < MAX_CLIENTS; i++) {
         if ((*cli_list)[i].socket != -1 && (*cli_list)[i].socket != sd
         && (*cli_list)[i].is_logged) {
-            send((*cli_list)[i].socket, to_send, strlen(to_send) + 1, 0);
+            send((*cli_list)[i].socket, to_send,
+            strlen(to_send) + 1, MSG_NOSIGNAL);
         }
     }
 }
@@ -36,7 +37,8 @@ client *current_client, int sd)
     for (int i = 0; i < MAX_CLIENTS; i++) {
         if ((*cli_list)[i].socket != -1 && (*cli_list)[i].socket != sd
         && (*cli_list)[i].is_logged) {
-            send((*cli_list)[i].socket, to_send, strlen(to_send) + 1, 0);
+            send((*cli_list)[i].socket, to_send,
+            strlen(to_send) + 1, MSG_NOSIGNAL);
         }
     }
 }

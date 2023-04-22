@@ -74,7 +74,7 @@ bool check_if_user_exist(server **se, int sd)
         result = sqlite3_column_int((*se)->stmt, 0);
     sqlite3_finalize((*se)->stmt);
     if (result <= 0) {
-        send(sd, to_send, strlen(to_send) + 1, 0);
+        send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
         return false;
     }
     return true;

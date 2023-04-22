@@ -24,7 +24,7 @@ sqlite3 *db)
     char *user_uuids = (char *)sqlite3_column_text((*se)->stmt, 0);
     if (user_uuids == NULL || strstr(user_uuids, cli->uuid_text) == NULL) {
         sqlite3_finalize((*se)->stmt);
-        send(cli->socket, CODE_504, strlen(CODE_504) + 1, 0);
+        send(cli->socket, CODE_504, strlen(CODE_504) + 1, MSG_NOSIGNAL);
         return true;
     }
     sqlite3_finalize((*se)->stmt);
@@ -52,7 +52,7 @@ int subscribed_function     (server **serv, client **cli_list,
     if (user_not_connected(curr_cli) || !args_check((*serv)->command, 2, sd))
         return 0;
     if (!check_if_uuid_exists((*serv)->command[1], "teams", (*serv)->db)) {
-        send(sd, CODE_501, strlen(CODE_501), 0); return 0;
+        send(sd, CODE_501, strlen(CODE_501), MSG_NOSIGNAL); return 0;
     }
     sqlite3_prepare_v2((*serv)->db,
     "SELECT user_uuids FROM teams WHERE uuid = ?;", -1, &(*serv)->stmt, NULL);
@@ -67,7 +67,7 @@ int subscribed_function     (server **serv, client **cli_list,
             strcat(list, get_user_info(serv, curr_cli, array[i]));
         }
     }
-    send(sd, list, strlen(list), 0);
+    send(sd, list, strlen(list), MSG_NOSIGNAL);
 }
 
 int use_function            (server **serv, client **cli_list,

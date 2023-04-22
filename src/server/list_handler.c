@@ -25,7 +25,7 @@ int list_replies(server **serv, client *cli, int sd)
         strcat(to_send, "\n");
     }
     sqlite3_finalize((*serv)->stmt);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return 0;
 }
 
@@ -49,7 +49,7 @@ int list_threads(server **serv, client *cli, int sd)
         strcat(to_send, "\n");
     }
     sqlite3_finalize((*serv)->stmt);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return 0;
 }
 
@@ -69,7 +69,7 @@ int list_channel(server **serv, client *cli, int sd)
         strcat(to_send, "\n");
     }
     sqlite3_finalize((*serv)->stmt);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return 0;
 }
 
@@ -88,6 +88,6 @@ int list_team(server **serv, client *cli, int sd)
         strcat(to_send, "\n");
     }
     sqlite3_finalize((*serv)->stmt);
-    send(sd, to_send, strlen(to_send) + 1, 0);
+    send(sd, to_send, strlen(to_send) + 1, MSG_NOSIGNAL);
     return 0;
 }

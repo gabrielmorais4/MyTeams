@@ -15,7 +15,7 @@ char *send_code_and_value(char *code, char *value, int sd);
 int handler_create_team (server **se, client **cli_list, client *cli, int sd)
 {
     if (check_if_name_exists((*se)->command[1], "teams", (*se)->db)) {
-        send(sd, CODE_505, strlen(CODE_505) + 1, 0);
+        send(sd, CODE_505, strlen(CODE_505) + 1, MSG_NOSIGNAL);
     } else {
         char *to_send = create_team(se, cli_list, cli, sd);
         send_message_to_every_one(se, cli_list, cli, to_send);
@@ -33,7 +33,7 @@ int handler_create_channel (server **se, client **cli_list, client *cli, int sd)
     if (check_if_name_exists_where((*se)->command[1], cli->team,
     "SELECT name FROM channels WHERE name = ? AND team = ?;",
     (*se)->db)) {
-        send(sd, CODE_505, strlen(CODE_505) + 1, 0);
+        send(sd, CODE_505, strlen(CODE_505) + 1, MSG_NOSIGNAL);
     } else {
         char *to_send = create_channel(se, cli_list, cli, sd);
         send_message_to_every_one(se, cli_list, cli, to_send);
@@ -55,7 +55,7 @@ int handler_create_thread (server **se, client **cli_list, client *cli, int sd)
     if (check_if_name_exists_where((*se)->command[1], cli->channel,
     "SELECT title FROM threads WHERE title = ? AND channel = ?;",
     (*se)->db)) {
-        send(sd, CODE_505, strlen(CODE_505) + 1, 0);
+        send(sd, CODE_505, strlen(CODE_505) + 1, MSG_NOSIGNAL);
     } else {
         char *to_send = create_thread(se, cli_list, cli, sd);
         send_message_to_every_one(se, cli_list, cli, to_send);

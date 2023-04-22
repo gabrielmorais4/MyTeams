@@ -41,7 +41,7 @@ client *current_client, int sd)
             return;
         }
     }
-    send(sd, CODE_590, strlen(CODE_590) + 1, 0);
+    send(sd, CODE_590, strlen(CODE_590) + 1, MSG_NOSIGNAL);
 }
 
 char **get_command(int sd)
