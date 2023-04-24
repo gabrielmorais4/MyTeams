@@ -14,7 +14,7 @@ bool args_check(char **command, int nb_args, int sd)
     while (command[i] != NULL)
         i++;
     if (i != nb_args) {
-        send(sd, "590 comando inválido.\n", 24, MSG_NOSIGNAL);
+        send(sd, CODE_590, strlen(CODE_590) + 1, MSG_NOSIGNAL);
         return false;
     }
     return true;
@@ -24,8 +24,8 @@ bool args_check(char **command, int nb_args, int sd)
 bool user_connected(client *current_client)
 {
     if (current_client->is_logged == true) {
-        send(current_client->socket, "Utilizador já com sessão iniciada.\n",
-        38, MSG_NOSIGNAL);
+        send(current_client->socket, CODE_331,
+        strlen(CODE_331) + 1, MSG_NOSIGNAL);
         return true;
     }
     return false;
@@ -34,9 +34,8 @@ bool user_connected(client *current_client)
 bool user_not_connected(client *current_client)
 {
     if (current_client->is_logged == false) {
-        char msg[100];
-        sprintf(msg, "%s você precisa estar conectado.\n", CODE_504);
-        send(current_client->socket, msg, strlen(msg) + 1, MSG_NOSIGNAL);
+        send(current_client->socket, CODE_504,
+        strlen(CODE_504) + 1, MSG_NOSIGNAL);
         return true;
     }
     return false;

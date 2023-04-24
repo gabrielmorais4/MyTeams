@@ -53,7 +53,7 @@
 #define CODE_216 "216 create_thread_event\n"
 #define CODE_217 "217 create_reply_print\n"
 #define CODE_218 "218 create_reply_event\n"
-//need to complete list and info to handle team, channel and thread
+
 #define CODE_222 "222 list_team\n"
 #define CODE_223 "223 list_channel\n"
 #define CODE_224 "224 list_thread\n"
@@ -74,8 +74,10 @@
 #define CODE_220 "220 connected_to_server\n"
 #define CODE_221 "221 message_sent_to_receiver\n"
 #define CODE_331 "331 user_already_logged\n"
+#define CODE_332 "332 user_not_connected\n"
 #define CODE_590 "590 command_invalid_arguments\n"
 #define CODE_506 "506 create_command_error\n"
+#define CODE_591 "591 invalid_command\n"
 
 #define CREATE_USERS_DB "CREATE TABLE IF NOT EXISTS users \
 (id INTEGER PRIMARY KEY, uuid TEXT, username TEXT, connected NUMBER);"
